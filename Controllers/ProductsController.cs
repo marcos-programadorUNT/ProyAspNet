@@ -17,7 +17,6 @@ namespace ProductService.Controllers
         private readonly ProductContext _context;
         private readonly ServiceBusClient _serviceBusClient;
         private readonly string _queueName = "colanotificacion";
-        
         public ProductsController(ProductContext context, ServiceBusClient serviceBusClient)
         {
             _context = context;
