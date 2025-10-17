@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using ProductService.Data;
 using Azure.Messaging.ServiceBus;
+using log4net;
+using log4net.Config;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +40,13 @@ builder.Services.AddDbContext<ProductContext>(options =>
 // Registrar el cliente Service Bus como singleton
 builder.Services.AddSingleton(new ServiceBusClient(serviceBusConnection));
 builder.Services.AddControllers();
+
+// Cargar log4net.config
+var repo = LogManager.GetRepository(Assembly.GetEntryAssembly());
+XmlConfigurator.Configure(repo, new FileInfo("log4net.config"));
+
 var app = builder.Build();
+var log = LogManager.GetLogger(typeof(Program));
 app.UseRequestLocalization(); 
 using (var scope = app.Services.CreateScope())
 {
@@ -50,6 +59,12 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+app.MapGet("/ping", () =>
+{
+    log.Info("Ping recibido");
+    log.Warn("Advertencia de prueba");
+    return Results.Ok("pong");
+});
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
