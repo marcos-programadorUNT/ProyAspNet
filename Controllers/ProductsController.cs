@@ -8,6 +8,7 @@ using ProductService.Data;
 using ProductService.Models;
 using Azure.Messaging.ServiceBus;
 using log4net;
+using Azure.Storage.Queues;
 namespace ProductService.Controllers
 {
     [ApiController]
@@ -17,15 +18,18 @@ namespace ProductService.Controllers
         private readonly ProductContext _context;
         //private readonly ServiceBusClient _serviceBusClient;
         //private readonly string _queueName = "colanotificacion";
+         private readonly QueueClient _queueClient;
 
         private static readonly ILog _log = LogManager.GetLogger(typeof(ProductsController));
 
         public ProductsController(ProductContext context
         //, ServiceBusClient serviceBusClient
+        , QueueClient queueClient
         )
         {
             _context = context;
             //_serviceBusClient = serviceBusClient;
+             _queueClient = queueClient;
         }
 
         [HttpGet]
@@ -51,6 +55,11 @@ namespace ProductService.Controllers
                 //Enviar notificación a la cola de Service Bus
                 //var sender = _serviceBusClient.CreateSender(_queueName);
                 //await sender.SendMessageAsync(new ServiceBusMessage($"Producto '{product.Name}' registrado correctamente."));
+
+                //Enviar notificación a Azure Storage Queue
+                var payload = $"Producto '{product.Name}' registrado correctamente. Id={product.Id}";
+                await _queueClient.SendMessageAsync(payload);
+                _log.Info($"☁️ STORAGE QUEQUE '{product.Name}' registrado en cola.");
 
                 _log.Info($"✅POST /api/products: '{product.Name}' guardado y notificado a Service Bus.");
                 return Ok(new { mensaje = "Producto registrado y notificación enviada." });

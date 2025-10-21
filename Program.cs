@@ -6,6 +6,8 @@ using Azure.Messaging.ServiceBus;
 using log4net;
 using log4net.Config;
 using System.Reflection;
+using Azure.Storage.Queues;
+using Azure.Storage.Queues.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,19 @@ var serviceBusConnection =
 Environment.GetEnvironmentVariable("ServiceBusConnectionString")
 ?? builder.Configuration.GetConnectionString("ServiceBusConnectionString")
 ?? throw new InvalidOperationException("ServiceBusConnectionString no está definida.");
+
+
+// 1) Cadena de conexión al Storage Account (preferir variable de entorno en Azure)
+var storageConn =
+    Environment.GetEnvironmentVariable("StorageQueueConnectionString") ??
+    builder.Configuration.GetConnectionString("StorageQueueConnectionString") ??
+    throw new InvalidOperationException("StorageQueueConnectionString no está definida.");
+
+// 2) Nombre de la cola
+var queueName =
+    Environment.GetEnvironmentVariable("StorageQueueName") ??
+    builder.Configuration.GetConnectionString("StorageQueueName") ??
+    throw new InvalidOperationException("StorageQueueName no está definida.");
 
 
 // Add services to the container.
@@ -59,9 +74,26 @@ builder.Services.AddDbContext<ProductContext>((sp, options) =>
 
 }
 );
+
+//CÓDIGO SERVICE BUS-------------------------------------------------------------
 // Registrar el cliente Service Bus como singleton
-builder.Services.AddSingleton(new ServiceBusClient(serviceBusConnection));
+/* builder.Services.AddSingleton(new ServiceBusClient(serviceBusConnection));
+builder.Services.AddControllers(); */
+//-------------------------------------------------------------------------------
+//CÓDIGO STORAGE QUEQUE----------------------------------------------------------
+builder.Services.AddSingleton(sp =>
+{
+    var qc = new QueueClient(storageConn, queueName, new QueueClientOptions
+    {
+        // Evita problemas con caracteres → el SDK codifica/decodifica en Base64
+        MessageEncoding = QueueMessageEncoding.Base64
+    });
+    qc.CreateIfNotExists(); // idempotente
+    return qc;
+});
 builder.Services.AddControllers();
+//-------------------------------------------------------------------------------
+
 
 // Cargar log4net.config
 var repo = LogManager.GetRepository(Assembly.GetEntryAssembly());

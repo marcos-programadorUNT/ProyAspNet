@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[7.20.1, )"
             },
+            "Azure.Storage.Queues": {
+              "target": "Package",
+              "version": "[12.*, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.2, )"

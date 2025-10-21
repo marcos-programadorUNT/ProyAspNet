@@ -47,6 +47,8 @@ C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Azure.Core.Amqp.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Azure.Identity.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Azure.Messaging.ServiceBus.dll
+C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Azure.Storage.Common.dll
+C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Azure.Storage.Queues.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Humanizer.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\log4net.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\log4net.Azure.Storage.dll
@@ -105,6 +107,7 @@ C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Drawing.Common.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Formats.Asn1.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.IO.Hashing.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Memory.Data.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Runtime.Caching.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
