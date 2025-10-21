@@ -15,15 +15,17 @@ namespace ProductService.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly ProductContext _context;
-        private readonly ServiceBusClient _serviceBusClient;
-        private readonly string _queueName = "colanotificacion";
+        //private readonly ServiceBusClient _serviceBusClient;
+        //private readonly string _queueName = "colanotificacion";
 
         private static readonly ILog _log = LogManager.GetLogger(typeof(ProductsController));
 
-        public ProductsController(ProductContext context, ServiceBusClient serviceBusClient)
+        public ProductsController(ProductContext context
+        //, ServiceBusClient serviceBusClient
+        )
         {
             _context = context;
-            _serviceBusClient = serviceBusClient;
+            //_serviceBusClient = serviceBusClient;
         }
 
         [HttpGet]
@@ -47,8 +49,8 @@ namespace ProductService.Controllers
                 //return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product); //devuelve una respuesta HTTP 201 Created después de crear un producto
 
                 //Enviar notificación a la cola de Service Bus
-                var sender = _serviceBusClient.CreateSender(_queueName);
-                await sender.SendMessageAsync(new ServiceBusMessage($"Producto '{product.Name}' registrado correctamente."));
+                //var sender = _serviceBusClient.CreateSender(_queueName);
+                //await sender.SendMessageAsync(new ServiceBusMessage($"Producto '{product.Name}' registrado correctamente."));
 
                 _log.Info($"✅POST /api/products: '{product.Name}' guardado y notificado a Service Bus.");
                 return Ok(new { mensaje = "Producto registrado y notificación enviada." });

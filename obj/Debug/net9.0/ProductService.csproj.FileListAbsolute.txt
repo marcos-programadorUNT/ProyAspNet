@@ -91,7 +91,9 @@ C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\MySqlConnector.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.ClientModel.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.CodeDom.dll
 C:\ALMACENAMIENTO MARCOS\PROYECTOS-TRABAJOS\SB\microservicios\ProductService\bin\Debug\net9.0\System.Composition.AttributedModel.dll

@@ -25,8 +25,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = new[] { new CultureInfo("es-ES") };
     options.SupportedUICultures = new[] { new CultureInfo("es-ES") };
 });
-builder.Services.AddDbContext<ProductContext>(options =>
+builder.Services.AddDbContext<ProductContext>((sp, options) =>
 {
+    /* //--PARA EL PRIMER SISTEMA REALIZADO----------------------------------------------------
     // Intenta primero obtener la conexión desde variable de entorno (App Service)
     var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
 
@@ -34,7 +35,28 @@ builder.Services.AddDbContext<ProductContext>(options =>
     if (string.IsNullOrEmpty(connectionString))
         connectionString = builder.Configuration.GetConnectionString("SqlConnectionString");
 
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString); */
+
+    //PARA EL SEGUNDO SISTEMA REALIZADO CON SQSERVER Y MYSQL-----------------------------------
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var provider = cfg.GetValue<string>("DatabaseProvider") ?? "SqlServer";
+
+    if (string.Equals(provider, "MySql", StringComparison.OrdinalIgnoreCase))
+    {
+        var cs = cfg.GetConnectionString("MysqlConnectionString")!;
+        // Evita AutoDetect si tu servidor puede estar apagado al compilar/migrar:
+        options.UseMySql(cs, new MySqlServerVersion(new Version(8, 0, 36)));
+        // packages: Pomelo.EntityFrameworkCore.MySql + MySqlConnector
+    }
+    else
+    {
+        var cs = cfg.GetConnectionString("SqlConnectionString")!;
+        options.UseSqlServer(cs);
+        // package: Microsoft.EntityFrameworkCore.SqlServer
+    }
+
+
+
 }
 );
 // Registrar el cliente Service Bus como singleton

@@ -75,6 +75,10 @@
               "target": "Package",
               "version": "[9.0.9, )"
             },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[9.*, )"
+            },
             "log4net": {
               "target": "Package",
               "version": "[3.2.0, )"
