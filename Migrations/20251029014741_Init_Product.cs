@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProductService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMySql : Migration
+    public partial class Init_Product : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

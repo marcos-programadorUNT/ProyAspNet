@@ -60,13 +60,19 @@ builder.Services.AddDbContext<ProductContext>((sp, options) =>
     {
         var cs = cfg.GetConnectionString("MysqlConnectionString")!;
         // Evita AutoDetect si tu servidor puede estar apagado al compilar/migrar:
-        options.UseMySql(cs, new MySqlServerVersion(new Version(8, 0, 36)));
+        options.UseMySql(cs, new MySqlServerVersion(new Version(8,0,36)), b =>
+        {
+            b.MigrationsHistoryTable("__EFMigrationsHistory_Product");
+        });
         // packages: Pomelo.EntityFrameworkCore.MySql + MySqlConnector
     }
     else
     {
         var cs = cfg.GetConnectionString("SqlConnectionString")!;
-        options.UseSqlServer(cs);
+        options.UseSqlServer(cs, b =>
+        {
+            b.MigrationsHistoryTable("__EFMigrationsHistory_Product");
+        });
         // package: Microsoft.EntityFrameworkCore.SqlServer
     }
 
@@ -74,6 +80,29 @@ builder.Services.AddDbContext<ProductContext>((sp, options) =>
 
 }
 );
+
+builder.Services.AddDbContext<AuditableContext>((sp, options) =>
+{
+    var cfg = sp.GetRequiredService<IConfiguration>();
+    var provider = cfg.GetValue<string>("DatabaseProvider") ?? "SqlServer";
+    if (provider.Equals("MySql", StringComparison.OrdinalIgnoreCase))
+    {
+        var cs = cfg.GetConnectionString("MysqlConnectionString")!;
+        options.UseMySql(cs, new MySqlServerVersion(new Version(8,0,36)), b =>
+        {
+            // 👈 Evita colisión si ambos contextos comparten BD
+            b.MigrationsHistoryTable("__EFMigrationsHistory_Audit");
+        });
+    }
+    else
+    {
+        var cs = cfg.GetConnectionString("SqlConnectionString")!;
+        options.UseSqlServer(cs, b =>
+        {
+            b.MigrationsHistoryTable("__EFMigrationsHistory_Audit");
+        });
+    }
+});
 
 //CÓDIGO SERVICE BUS-------------------------------------------------------------
 // Registrar el cliente Service Bus como singleton
@@ -104,8 +133,13 @@ var log = LogManager.GetLogger(typeof(Program));
 app.UseRequestLocalization(); 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ProductContext>();
-    dbContext.Database.Migrate();
+    var sp = scope.ServiceProvider;
+
+    var productDb = sp.GetRequiredService<ProductContext>();
+    await productDb.Database.MigrateAsync();
+
+    var auditDb = sp.GetRequiredService<AuditableContext>();
+    await auditDb.Database.MigrateAsync();
 }   
 
 // Configure the HTTP request pipeline.
